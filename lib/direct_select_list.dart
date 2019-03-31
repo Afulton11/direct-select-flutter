@@ -139,14 +139,18 @@ class DirectSelectState<T> extends State<DirectSelectList<T>> {
               child: selectedItem,
               onTapDown: (tapDownDetails) async {
                 if (!isOverlayVisible) {
+                  setState(() {
                   transitionEnded = false;
                   _isShowUpAnimationRunning = true;
+                  });
                   animatedStateKey.currentState
                       .runScaleTransition(reverse: false);
                   if (!transitionEnded) {
                     await _showListOverlay(_getItemTopPosition(context));
-                    _isShowUpAnimationRunning = false;
-                    lastSelectedItem = value;
+                    setState(() {
+                      _isShowUpAnimationRunning = false;
+                      lastSelectedItem = value;
+                    });
                   }
                 }
               },

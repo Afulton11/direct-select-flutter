@@ -79,12 +79,17 @@ class DirectSelectContainer extends StatefulWidget {
   //How fast list is scrolled
   final int dragSpeedMultiplier;
 
+  final Duration fadeAnimationDuration;
+  final Duration scrollToItemAnimationDuration;
+
   const DirectSelectContainer({
     Key key,
     this.child,
     @Deprecated("Controls are now added from an InheritedWidget.")
     List<DirectSelectList> controls,
-    this.dragSpeedMultiplier = 2
+    this.dragSpeedMultiplier = 2,
+    this.fadeAnimationDuration = const Duration(milliseconds: 200),
+    this.scrollToItemAnimationDuration = const Duration(milliseconds: 200)
   }) : super(key: key);
 
   @override
@@ -117,15 +122,12 @@ class DirectSelectContainerState extends State<DirectSelectContainer>
 
   double listPadding = 0.0;
 
-  final scrollToListElementAnimationDuration = Duration(milliseconds: 200);
-  final fadeAnimationDuration = Duration(milliseconds: 200);
-
   @override
   void initState() {
     super.initState();
 
     fadeAnimationController = AnimationController(
-      duration: fadeAnimationDuration,
+      duration: widget.fadeAnimationDuration,
       vsync: this,
     );
   }
@@ -333,7 +335,7 @@ class DirectSelectContainerState extends State<DirectSelectContainer>
           listPadding -
               _adjustedTopOffset +
               lastSelectedItem * _currentList.itemHeight(),
-          duration: scrollToListElementAnimationDuration,
+          duration: widget.scrollToItemAnimationDuration,
           curve: Curves.ease,
         );
       } catch (e) {} finally {
