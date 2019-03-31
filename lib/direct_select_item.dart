@@ -34,15 +34,19 @@ class DirectSelectItem<T> extends StatefulWidget {
   //the more value the MORE max scale DECREASES
   final scaleFactor;
 
+  final double scaleSpeedMultipler;
+
   final Widget Function(BuildContext context, T value) itemBuilder;
 
-  DirectSelectItem(
-      {Key key,
-        this.scaleFactor = 4.0,
+  DirectSelectItem({
+    Key key,
+      this.scaleFactor = 4.0,
       @required this.value,
-        @required this.itemBuilder,
+      @required this.itemBuilder,
+      this.scaleSpeedMultipler = 1.0,
       this.itemHeight = 48.0,
-      this.isSelected = false})
+      this.isSelected = false
+    })
       : super(key: key);
 
   @override
@@ -98,7 +102,7 @@ class DirectSelectItemState<T> extends State<DirectSelectItem<T>>
     super.initState();
 
     animationController =
-        AnimationController(duration: Duration(milliseconds: 150), vsync: this);
+        AnimationController(duration: Duration(milliseconds: (150 * widget.scaleSpeedMultipler).floor()), vsync: this);
     _tween = Tween(begin: 1.0, end: 1 + 1 / widget.scaleFactor);
     _animation = _tween.animate(animationController)
       ..addListener(() {

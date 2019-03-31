@@ -141,7 +141,7 @@ class DirectSelectState<T> extends State<DirectSelectList<T>> {
                 if (!isOverlayVisible) {
                   transitionEnded = false;
                   _isShowUpAnimationRunning = true;
-                  await animatedStateKey.currentState
+                  animatedStateKey.currentState
                       .runScaleTransition(reverse: false);
                   if (!transitionEnded) {
                     await _showListOverlay(_getItemTopPosition(context));
